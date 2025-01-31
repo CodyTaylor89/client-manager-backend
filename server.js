@@ -5,6 +5,10 @@ const mongoose = require('mongoose');
 const app = express();
 app.use(express.json());
 
+// Suppress Mongoose strictQuery warning
+mongoose.set('strictQuery', false);
+
+// Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -12,6 +16,7 @@ mongoose.connect(process.env.MONGO_URI, {
 .then(() => console.log('✅ MongoDB Connected'))
 .catch(err => console.error('❌ MongoDB Connection Error:', err));
 
+// Basic Route
 app.get('/', (req, res) => {
   res.send('Client Manager API Running!');
 });
