@@ -1,16 +1,13 @@
-require("dotenv").config(); // ✅ Load environment variables FIRST
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 
 const app = express();
 
-// ✅ Enable CORS (move it after app is defined)
+// ✅ Enable CORS
 app.use(cors());
 app.use(express.json());
-
-// Suppress Mongoose strictQuery warning
-mongoose.set("strictQuery", false);
 
 // ✅ Connect to MongoDB
 mongoose
@@ -25,6 +22,10 @@ mongoose
 app.get("/", (req, res) => {
   res.send("Client Manager API Running!");
 });
+
+// ✅ Use the newly created routes
+app.use("/clients", require("./routes/clients"));
+app.use("/projects", require("./routes/projects"));
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
